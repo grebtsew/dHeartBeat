@@ -1,0 +1,8 @@
+Self http://localhost:80
+Self http://localhost:81
+Self http://localhost:82
+Self http://localhost:83
+Self http://localhost:84
+Self http://localhost:85
+Self http://localhost:86
+google https://www.google.com
