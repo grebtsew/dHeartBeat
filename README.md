@@ -1,9 +1,9 @@
 # dHeartBeat
- Docker Heart Beat (dHeartbeat) is a simple docker microservice for checking heartbeats on custom links. The software uses interval heartbeat to evaluate any software IP, PORT and PATH state. The idea is to easily keep track of massive docker setups. The demo screenshot below visualizes the software in action. The software consists of a PHP proxy handling message sharing, an Express backend handling link checkups and a frontend. The application is of course dockerized.
+ Docker Heart Beat (dHeartbeat) is a simple monitoring tool and microservice for checking heartbeats on custom url links. The software uses interval heartbeat to evaluate any software IP, PORT and PATH state. The idea is to easily keep track of massive docker setups. The demo screenshot below visualizes the software in action. The software consists of a PHP proxy handling message sharing, an Express backend handling link checkups and a frontend. The application is of course dockerized.
 
 
-![size](https://img.shields.io/github/repo-size/grebtsew/dhHeartBeat)
-![commit](https://img.shields.io/github/last-commit/grebtsew/dhHeartBeat)
+![size](https://img.shields.io/github/repo-size/grebtsew/dHeartBeat)
+![commit](https://img.shields.io/github/last-commit/grebtsew/dHeartBeat)
 
 
 ![./demo.PNG](./demo.PNG)
