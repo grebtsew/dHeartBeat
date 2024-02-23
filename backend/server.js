@@ -24,6 +24,7 @@ let links = fs.readFileSync(linksFilePath, 'utf-8')
     });
 
 async function fetchLink(link) {
+  /* This is the heartbeat per link function that is used every interval for each link!*/ 
   let aborted = false;
 
   // Set a timeout for the fetch request

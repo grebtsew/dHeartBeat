@@ -112,7 +112,7 @@ button:hover {
 #pipDiv {
   position: fixed;
   top: 20px; /* Adjust the top position as needed */
-  left: 200px; /* Adjust the left position as needed */
+  left: 60%; /* Adjust the left position as needed */
  
   background-color: #333;
   padding: 10px;
@@ -191,7 +191,7 @@ body {
 
   .card {
     box-sizing: border-box;
-    width: 98%;
+    width: calc(100% - 35px);
     height: 350px;
     margin: 20px;
     padding: 15px;

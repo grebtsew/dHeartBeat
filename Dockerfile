@@ -32,11 +32,11 @@ WORKDIR /var/www/html
 COPY . /var/www/html
 
 # Install Node.js dependencies
-RUN cd /var/www/html && npm install
+RUN cd /var/www/html/backend && npm install
 
 # Expose ports for Apache and WebSocket
 EXPOSE 80
 EXPOSE 3000
 
 # Start Apache and WebSocket server
-CMD node server.js & apache2-foreground
+CMD node ./backend/server.js & apache2-foreground

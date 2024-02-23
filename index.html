@@ -4,15 +4,13 @@
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>dHeartBeat</title>
-  <link rel="stylesheet" href="styles.css">
-  <link rel="stylesheet" type="text/css" href="./toastify.css">
-  <link rel="stylesheet" href="./all.min.css">
-  <script type="text/javascript" src="./toastify.js"></script>
-  <script src="./charts.js"></script>
+  <link rel="stylesheet" href="./utils/styles.css">
+  <link rel="stylesheet" type="text/css" href="./external/toastify.css">
+  <link rel="stylesheet" href="./external/all.min.css">
+  <script type="text/javascript" src="./external/toastify.js"></script>
+  <script src="./external/charts.js"></script>
 </head>
 <body>
-
-
 
   <div class="header">
 
@@ -26,8 +24,6 @@
       <button onclick="openPopup()">+ Add</button>
     </div>
    
-   
-
   </div>
 
   <div id="popupContainer">
@@ -50,17 +46,16 @@
     </div>
 </div>
 
-
   <div id="pipDiv" draggable="true">
     <div class="StatusList"></div>
 </div>
 
-  <div class="Listview">
-
-  </div>
+  <div class="Listview"> </div>
   
-  <script src="script.js"></script>
+  <script src="./utils/script.js"></script>
   <script>
+
+    // Code for handling PiP Container
     var pipDiv = document.getElementById('pipDiv');
     var offsetX, offsetY, isDragging = false;
 
