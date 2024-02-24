@@ -1,12 +1,12 @@
 # dHeartBeat
- DockerHeartBeat (dHeartBeat) is a simplistic monitoring tool and microservice for visualizing the realtime accessability of arbitrary network IP, PORT and PATHs. The software utilizes interval heartbeat to evaluate the external system response latency. The idea behind the project was to easily keep track of massive docker orchestrations. The demo screenshot below visualizes the software in action. The application consists of a PHP proxy handling message sharing, an ExpressJS backend handling link checkups and a frontend utilizing Javascript, HTML and CSS. The application is of course dockerized and can easily be integrated in any docker environment.
+ DockerHeartBeat (dHeartBeat) is a simplistic monitoring tool and microservice for visualizing the realtime accessability of arbitrary network IP, PORT and PATHs. The software utilizes interval heartbeat to evaluate the external system response latency. The idea behind the project was to easily keep track of massive docker orchestrations. The demo below visualizes the software in action. The application consists of a PHP proxy handling message sharing, an ExpressJS backend handling link checkups and a frontend utilizing Javascript, HTML and CSS. The application is of course dockerized and can easily be integrated in any docker environment.
 
 ![license](https://img.shields.io/github/license/grebtsew/dHeartBeat)
 ![size](https://img.shields.io/github/repo-size/grebtsew/dHeartBeat)
 ![commit](https://img.shields.io/github/last-commit/grebtsew/dHeartBeat)
 
 
-![./demo.PNG](./docs/demo.PNG)
+![./demo.PNG](./docs/demo.gif)
 
 
 # Getting started
@@ -22,7 +22,7 @@ This will expose the WebGUI at http://localhost:8085.
 
 * **Toast notifications** - Important events are amplified to user via toast notifications.
 * **Load .txt files of links** - Multiple links can be added to the heartbeat backend by parsing .txt files.
-* **Random icon generation** - In order to create idiosyncrasies in the GUI icons are random selected for each object in the listview.
+* **Random icon generation** - In order to create idiosyncrasies in the GUI, icons are random selected for each object in the listview.
 * **Draggable status P-i-P window** - To get a better overview of all heartbeats, there is a movable status box in the UI.
 
 

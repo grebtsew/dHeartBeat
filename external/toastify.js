@@ -124,7 +124,7 @@
   
         if (this.options.backgroundColor) {
           // This is being deprecated in favor of using the style HTML DOM property
-          console.warn('DEPRECATION NOTICE: "backgroundColor" is being deprecated. Please use the "style.background" property.');
+         // console.warn('DEPRECATION NOTICE: "backgroundColor" is being deprecated. Please use the "style.background" property.');
         }
   
         // Loop through our style object and apply styles to divElement

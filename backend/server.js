@@ -19,11 +19,11 @@ const iconClasses = ["fa fa-flag","fa fa-caret-down","fa fa-flag fa-fw","fa fa-r
 "fa fa-edit","fa fa-ellipsis-h","fa fa-ellipsis-v","fa fa-envelope","fa fa-eraser","fa fa-exchange","fa fa-exclamation","fa fa-exclamation-circle",
 "fa fa-exclamation-triangle","fa fa-external-link","fa fa-external-link-square","fa fa-eye","fa fa-eye-slash","fa fa-female","fa fa-fighter-jet","fa fa-film",
 "fa fa-filter","fa fa-fire","fa fa-fire-extinguisher","fa fa-flag","fa fa-flag-checkered","fa fa-flash","fa fa-flask","fa fa-folder",
-"fa fa-folder-open","fa fa-gamepad","fa fa-gavel","fa fa-gear","fa fa-gears","fa fa-gift","fa fa-glass","fa fa-globe","fa fa-group","fa fa-headphones",
+"fa fa-folder-open","fa fa-gamepad","fa fa-gavel","fa fa-gear","fa fa-gears","fa fa-gift","fa fa-globe","fa fa-headphones",
 "fa fa-heart","fa fa-home","fa fa-inbox","fa fa-info","fa fa-info-circle","fa fa-key","fa fa-laptop","fa fa-leaf","fa fa-legal",
 "fa fa-level-down","fa fa-level-up","fa fa-location-arrow","fa fa-lock","fa fa-magic","fa fa-magnet","fa fa-mail-forward","fa fa-mail-reply","fa fa-mail-reply-all",
 "fa fa-male","fa fa-map-marker","fa fa-microphone","fa fa-microphone-slash","fa fa-minus","fa fa-minus-circle","fa fa-minus-square","fa fa-mobile",
-"fa fa-mobile-phone","fa fa-money","fa fa-music","fa fa-pencil","fa fa-pencil-square","fa fa-phone","fa fa-phone-square","fa fa-plane",
+"fa fa-mobile-phone","fa fa-music","fa fa-pencil","fa fa-pencil-square","fa fa-phone","fa fa-phone-square","fa fa-plane",
 "fa fa-plus","fa fa-plus-circle","fa fa-plus-square","fa fa-power-off","fa fa-print","fa fa-puzzle-piece","fa fa-qrcode","fa fa-question","fa fa-question-circle",
 "fa fa-quote-left","fa fa-quote-right","fa fa-random","fa fa-refresh","fa fa-reply","fa fa-reply-all","fa fa-retweet","fa fa-road","fa fa-rocket","fa fa-rss","fa fa-rss-square","fa fa-search",
 "fa fa-search-minus","fa fa-search-plus","fa fa-share","fa fa-share-square","fa fa-shield","fa fa-shopping-cart","fa fa-sign-in","fa fa-signal","fa fa-sitemap",
@@ -62,7 +62,7 @@ const max_graph_length = 30;
 const latencyData = {};
 const linksFilePath = path.join(__dirname, './links.txt');
 let links = fs.readFileSync(linksFilePath, 'utf-8')
-    .split('\n')
+    .split('\r\n') // potential problem with line endings!
     .filter(line => line.trim() !== '') // Remove empty lines
     .map(line => {
         const [name, link] = line.split(' ');
@@ -115,7 +115,12 @@ async function fetchLink(link) {
             const end = new Date();
             const latencyValue = end - start;
 
-            latencyData[link.link] = [...(latencyData[link.link] || []), latencyValue];
+            const currentTime = end.toLocaleTimeString();
+
+            latencyData[link.link] = [
+              ...(latencyData[link.link] || []),
+              { latency: latencyValue, time: currentTime }
+            ];
 
             // Remove oldest data if the maximum size is reached
             if (latencyData[link.link].length > max_graph_length) {
@@ -125,7 +130,15 @@ async function fetchLink(link) {
             // Handle non-OK response
             console.error(`Non-OK response for link: ${link.link}`);
 
-            latencyData[link.link] = [...(latencyData[link.link] || []), -1];
+            const end = new Date();
+            const latencyValue = end - start;
+
+            const currentTime = end.toLocaleTimeString();
+
+            latencyData[link.link] = [
+              ...(latencyData[link.link] || []),
+              { latency: -1, time: currentTime }
+            ];
 
             // Remove oldest data if the maximum size is reached
             if (latencyData[link.link].length > max_graph_length) {
@@ -166,14 +179,21 @@ app.get('/latencyData', (req, res) => {
   res.json(latencyData);
 });
 
-
-
 // Endpoint to add a new link to the list
 app.post('/addLink', (req, res) => {
   const { name, link } = req.body;
-  const color = getRandomColor() ;
+  const color = getRandomColor();
   const icon = getRandomIconClass();
-  links.push({ name, link, color, icon });
+
+  // Check if a link with the same 'link' property already exists
+  const existingLinkIndex = links.findIndex(existingLink => existingLink.link === link);
+
+  if (existingLinkIndex !== -1) {
+  } else {
+    // Link doesn't exist, add a new entry
+    links.push({ name, link, color, icon });
+  }
+ console.log(links);
   res.json(links);
 });
 

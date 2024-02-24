@@ -3,12 +3,8 @@
 document.addEventListener('DOMContentLoaded', function () {
   const port = '8085';
   const phplink = `http://localhost:${port}/proxy.php?url=`;
-  const max_graph_length  = 30;
-  const about_timeout = 10000; 
-  const timer_interval = 10000;
-  let countdown = 10; // Initial countdown value
-  const maxDataSize = max_graph_length; // Adjust as needed
-
+  const timer_interval = 5000;
+  const maxLabelsToShow = 30; // Change this value based on your preference
 
   let intervalIDs = {};
   let links = [];
@@ -76,7 +72,6 @@ document.addEventListener('DOMContentLoaded', function () {
     }
     // remove from links, oldlinks
     delete latencyData[link.link];
-
 
     const valueToRemove = link.link;
     links = links.filter(obj => obj.link !== valueToRemove);
@@ -205,16 +200,19 @@ document.addEventListener('DOMContentLoaded', function () {
     }
         
     function updateLatency(latencyData) {
+     
+      let latencyValue = undefined;
+      try{
+      latencyValue = latencyData[link.link][latencyData[link.link].length - 1]["latency"];
+      } catch
+      {}
 
-      if (!latencyData[link.link]) {
-        latencyData[link.link] = [];
-      }
-
-      let latencyValue = latencyData[link.link][latencyData[link.link].length - 1];
       if (latencyValue == undefined){
         latencyValue = -1;
       }
 
+      
+        // notify online/offline status change
       if (statusText.textContent == 'Online' && latencyValue == -1 ){
         showToast(`${link.link} Went Offline!`, "red")
       }
@@ -222,41 +220,50 @@ document.addEventListener('DOMContentLoaded', function () {
         showToast(`${link.link} Went Online!`, "green")
       }
 
+      // show current value
       latency.textContent = `Latency: ${latencyValue} ms`;
       updateStatus(latencyValue != -1);
 
-      const data = latencyData[link.link];
-    
-      // Add new data
-      data.push(latencyValue);
-    
-      // Remove oldest data if the maximum size is reached
-      if (data.length > maxDataSize) {
-        data.shift(); // Remove the first element
+      // Dont update charts without data!
+      if (!latencyData[link.link]) {
+        latencyData[link.link] = [];
+        return;
       }
-    
+      
+      if(latencyData[link.link].length === 0){
+        statusText.textContent = 'Offline';
+        return;
+      }
+
+      // update chart
+      const data = latencyData[link.link];
+
       // Update the chart for the specific link
       updateChart(chart, data);
     }
 
-    async function getUpdatedData () {
-      // Fetch and log latency data
-      latencyData = await getLatencyData();
-      latencyData = latencyData.content;
+    async function updatedData () {
+        latencyData = await getLatencyData();
+        latencyData = latencyData.content;
       
-      try {
-        latencyData = JSON.parse(latencyData);
-      } catch (error) {
-        console.error('Error parsing latencyData as JSON:', error);
-      }
+        try {
+          latencyData = JSON.parse(latencyData);
+        } catch (error) {
+          console.error('Error parsing latencyData as JSON:', error);
+        }
+
+        updateStatusList();
+
+       
+    
+      // update data visuals
       updateLatency(latencyData);
 
-      updateStatusList();
+      
     };
     
-  
-    getUpdatedData();
-     let iid = setInterval(getUpdatedData, timer_interval);
+      updatedData();
+     let iid = setInterval(updatedData, timer_interval);
 
      intervalIDs[link.link] = iid;
 
@@ -284,13 +291,13 @@ document.addEventListener('DOMContentLoaded', function () {
        
   function getStatusText(linkName) {
     const latencyArray = latencyData[linkName];
-    const lastLatencyValue = latencyArray ? latencyArray[latencyArray.length - 1] : null;
+    const lastLatencyValue = latencyArray ? latencyArray[latencyArray.length - 1]["latency"] : null;
     return lastLatencyValue !== -1 && lastLatencyValue !== null ? `Online (${lastLatencyValue} ms)` : 'Offline';
   }
   
   function getStatusClass(linkName) {
     const latencyArray = latencyData[linkName];
-    const lastLatencyValue = latencyArray ? latencyArray[latencyArray.length - 1] : null;
+    const lastLatencyValue = latencyArray ? latencyArray[latencyArray.length - 1]["latency"] : null;
     const isOnline = lastLatencyValue !== -1 && lastLatencyValue !== null ;
     return isOnline ? 'online' : 'offline';
   }
@@ -301,17 +308,51 @@ document.addEventListener('DOMContentLoaded', function () {
   
     // Iterate through links and update the status list
     links.forEach(link => {
-      const statusItem = document.createElement('div');
-      statusItem.textContent = `${link.name} ${link.link}: ${getStatusText(link.link)}`;
-      statusItem.classList.add(getStatusClass(link.link));
-      statusListContainer.appendChild(statusItem);
+      const content = `${link.name} ${link.link}: ${getStatusText(link.link)}`;
+  
+      // Check if a status item with similar content already exists
+      if (!doesStatusItemExist(content)) {
+        const statusItem = document.createElement('div');
+        statusItem.textContent = content;
+        statusItem.classList.add('status-item',getStatusClass(link.link));
+        statusListContainer.appendChild(statusItem);
+      }
     });
+  }
+  
+  // Function to check if a div with similar content already exists
+  function doesStatusItemExist(content) {
+    const existingStatusItems = statusListContainer.querySelectorAll('.status-item');
+  
+    for (const item of existingStatusItems) {
+      if (item.textContent === content) {
+        return true;
+      }
+    }
+  
+    return false;
   }
   
 
   function updateChart(chart, data) {
-    chart.data.labels = Array.from({ length: data.length }, (_, i) => i + 1);
-    chart.data.datasets[0].data = data;
+    const currentTime = new Date().toLocaleTimeString();
+    
+    // Clear existing labels and data
+    chart.data.labels = [];
+    chart.data.datasets[0].data = [];
+    
+    // Iterate through each value in the data array and push it to the dataset
+    data.forEach((value, index) => {
+      chart.data.labels.push(value["time"]);
+      chart.data.datasets[0].data.push(value["latency"]);
+    });
+    
+   
+    if (chart.data.labels.length > maxLabelsToShow) {
+      chart.data.labels = chart.data.labels.slice(-maxLabelsToShow);
+      chart.data.datasets[0].data = chart.data.datasets[0].data.slice(-maxLabelsToShow);
+    }
+    
     chart.update();
   }
 
@@ -439,13 +480,14 @@ document.addEventListener('DOMContentLoaded', function () {
 
 function showToast(message, color = "blue") {
   // Check if the browser supports the Notification API
-  Toastify({
+  let toast = Toastify({
     text: message,
     duration: 3000,  // 3 seconds
     gravity: "bottom",  // or "bottom"
     position: "right",  // or "left", "right"
     backgroundColor: color
 }).showToast();
+
 }
 
 function openPopup() {
