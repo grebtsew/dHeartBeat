@@ -1,4 +1,4 @@
-version: '3.8'
+version: "3.8"
 
 services:
   dheartbeat:
@@ -7,6 +7,5 @@ services:
       context: .
       dockerfile: Dockerfile
     ports:
-      - "8085:80"  # Map host port 8080 to container port 80
+      - "8085:80" # Map host port 8080 to container port 80
 
-    

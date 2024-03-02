@@ -1,88 +1,81 @@
-<!DOCTYPE html>
+<!doctype html>
 <html lang="en">
-<head>
-  <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>dHeartBeat</title>
-  <link rel="stylesheet" href="./utils/styles.css">
-  <link rel="stylesheet" type="text/css" href="./external/toastify.css">
-  <link rel="stylesheet" href="./external/all.min.css">
-  <script type="text/javascript" src="./external/toastify.js"></script>
-  <script src="./external/charts.js"></script>
-</head>
-<body>
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>dHeartBeat</title>
+    <link rel="stylesheet" href="./utils/styles.css" />
+    <link rel="stylesheet" type="text/css" href="./external/toastify.css" />
+    <link rel="stylesheet" href="./external/all.min.css" />
+    <script type="text/javascript" src="./external/toastify.js"></script>
+    <script src="./external/charts.js"></script>
+  </head>
+  <body>
+    <div class="header">
+      <div class="logo">dHeartBeat</div>
 
-  <div class="header">
+      <p><span id="countdown"></span></p>
 
-    <div class="logo">
-      dHeartBeat
+      <div class="add-button">
+        <button onclick="openPopup()">+ Add</button>
+      </div>
     </div>
 
-    <p><span id="countdown"></span></p>
+    <div id="popupContainer">
+      <div id="popup">
+        <span id="closeButton" onclick="closePopup()">X</span>
+        <h2>Add New Website</h2>
+        <form id="submitForm">
+          <label for="name">Name:</label>
+          <input type="text" id="name" name="name" required />
 
-    <div class="add-button">
-      <button onclick="openPopup()">+ Add</button>
+          <label for="url">URL:</label>
+          <input type="url" id="url" name="url" required />
+
+          <label for="file">Upload File:</label>
+          <input type="file" id="file" name="file" />
+
+          <button type="button" id="submitButton">Save</button>
+          <button type="button" onclick="closePopup()">Cancel</button>
+        </form>
+      </div>
     </div>
-   
-  </div>
 
-  <div id="popupContainer">
-    <div id = "popup">
-    <span id="closeButton" onclick="closePopup()">X</span>
-    <h2>Add New Website</h2>
-    <form id="submitForm">
-        <label for="name">Name:</label>
-        <input type="text" id="name" name="name" required>
-
-        <label for="url">URL:</label>
-        <input type="url" id="url" name="url" required>
-
-        <label for="file">Upload File:</label>
-        <input type="file" id="file" name="file">
-
-        <button type="button" id="submitButton">Save</button>
-        <button type="button" onclick="closePopup()">Cancel</button>
-    </form>
+    <div id="pipDiv" draggable="true">
+      <div class="StatusList"></div>
     </div>
-</div>
 
-  <div id="pipDiv" draggable="true">
-    <div class="StatusList"></div>
-</div>
+    <div class="Listview"></div>
 
-  <div class="Listview"> </div>
-  
-  <script src="./utils/script.js"></script>
-  <script>
+    <script src="./utils/script.js"></script>
+    <script>
+      // Code for handling PiP Container
+      var pipDiv = document.getElementById("pipDiv");
+      var offsetX,
+        offsetY,
+        isDragging = false;
 
-    // Code for handling PiP Container
-    var pipDiv = document.getElementById('pipDiv');
-    var offsetX, offsetY, isDragging = false;
-
-    pipDiv.addEventListener('mousedown', function(e) {
+      pipDiv.addEventListener("mousedown", function (e) {
         isDragging = true;
         offsetX = e.clientX - pipDiv.getBoundingClientRect().left;
         offsetY = e.clientY - pipDiv.getBoundingClientRect().top;
-        pipDiv.style.cursor = 'grabbing';
-    });
+        pipDiv.style.cursor = "grabbing";
+      });
 
-    document.addEventListener('mousemove', function(e) {
+      document.addEventListener("mousemove", function (e) {
         if (isDragging) {
-            var x = e.clientX - offsetX;
-            var y = e.clientY - offsetY;
+          var x = e.clientX - offsetX;
+          var y = e.clientY - offsetY;
 
-            pipDiv.style.left = x + 'px';
-            pipDiv.style.top = y + 'px';
+          pipDiv.style.left = x + "px";
+          pipDiv.style.top = y + "px";
         }
-    });
+      });
 
-    document.addEventListener('mouseup', function() {
+      document.addEventListener("mouseup", function () {
         isDragging = false;
-        pipDiv.style.cursor = 'grab';
-    });
-
-    
-</script>
-
-</body>
+        pipDiv.style.cursor = "grab";
+      });
+    </script>
+  </body>
 </html>

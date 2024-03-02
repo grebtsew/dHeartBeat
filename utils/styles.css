@@ -13,31 +13,26 @@
   max-height: 60px;
 }
 
-.mainContainer{
-  display: flex; 
+.mainContainer {
+  display: flex;
 }
 
 i {
-
-font-size: 50px;
+  font-size: 50px;
 }
 
-.iconContainer{
+.iconContainer {
   width: 100px;
   height: 100px;
- 
+
   display: flex;
   align-items: center;
   justify-content: center;
 }
 
-.infoContainer{
- 
- 
- margin-right: 10px; /* Add margin for spacing */
-
+.infoContainer {
+  margin-right: 10px; /* Add margin for spacing */
 }
-
 
 #popup {
   display: none;
@@ -61,7 +56,6 @@ font-size: 50px;
   background-color: rgba(0, 0, 0, 0.5);
   justify-content: center;
   align-items: center;
- 
 }
 
 #closeButton {
@@ -97,7 +91,7 @@ input {
 }
 
 button {
-  background-color: #4CAF50;
+  background-color: #4caf50;
   color: white;
   padding: 10px;
   border: none;
@@ -113,7 +107,7 @@ button:hover {
   position: fixed;
   top: 20px; /* Adjust the top position as needed */
   left: 60%; /* Adjust the left position as needed */
- 
+
   background-color: #333;
   padding: 10px;
   cursor: grab;
@@ -121,7 +115,7 @@ button:hover {
   user-select: none;
 }
 
-#countdown{
+#countdown {
   margin: 20px;
 }
 
@@ -131,7 +125,7 @@ button:hover {
 }
 
 .add-button button {
-  background-color: #4CAF50;
+  background-color: #4caf50;
   color: white;
   padding: 8px 16px;
   border: none;
@@ -168,61 +162,58 @@ button:hover {
   background-color: #be1f1f;
 }
 
-
 .Listview {
-  margin-top: 80px; 
+  margin-top: 80px;
 }
 
 body {
- 
-    font-family: Arial, sans-serif;
-    margin: 0;
-    padding: 0;
-    display: flex;
-    flex-wrap: wrap;
-    justify-content: space-around;
-  }
+  font-family: Arial, sans-serif;
+  margin: 0;
+  padding: 0;
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: space-around;
+}
 
-  canvas {
-    max-height: 150px;
-    max-width: 100%;
-  }
+canvas {
+  max-height: 150px;
+  max-width: 100%;
+}
 
+.card {
+  box-sizing: border-box;
+  width: calc(100% - 35px);
+  height: 350px;
+  margin: 20px;
+  padding: 15px;
+  border: 1px solid #ddd;
+  border-radius: 8px;
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+  background-color: #fff;
+  display: flex; /* Add this line to make .card a flex container */
+  flex-direction: column; /* Arrange child elements vertically */
+}
 
-  .card {
-    box-sizing: border-box;
-    width: calc(100% - 35px);
-    height: 350px;
-    margin: 20px;
-    padding: 15px;
-    border: 1px solid #ddd;
-    border-radius: 8px;
-    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
-    background-color: #fff;
-    display: flex; /* Add this line to make .card a flex container */
-    flex-direction: column; /* Arrange child elements vertically */
-  }
-  
-  .status {
-    display: flex;
-    align-items: center;
-  }
-  
-  .status-dot {
-    width: 12px;
-    height: 12px;
-    border-radius: 50%;
-    margin-right: 8px;
-  }
+.status {
+  display: flex;
+  align-items: center;
+}
 
-  .online {
-    background-color: #4CAF50;
-  }
+.status-dot {
+  width: 12px;
+  height: 12px;
+  border-radius: 50%;
+  margin-right: 8px;
+}
 
-  .offline {
-    background-color: #F44336;
-  }
+.online {
+  background-color: #4caf50;
+}
 
-  .latency {
-    margin-top: 10px;
-  }
+.offline {
+  background-color: #f44336;
+}
+
+.latency {
+  margin-top: 10px;
+}
